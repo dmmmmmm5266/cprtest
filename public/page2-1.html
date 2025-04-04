@@ -12,9 +12,11 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            opacity: 0; /* 初始不透明度 */
-            transition: opacity 0.8s ease; /* 淡入淡出效果 */
-            
+            opacity:0; /* 初始不透明度為 0 */
+            transition: opacity 0.5s ease; /* 淡入效果 */
+        }
+        h1 {
+            margin-bottom: -80px;
         }
         .button {
             width: 360px;
@@ -34,19 +36,18 @@
     </style>
 </head>
 <body>
-
-    <img src="pic1.jpg" alt="測驗圖片" style="max-width: 92%; height: auto; margin-top: -80px; border: 2px solid #3E3A39; border-radius: 5px;">
-    <button class="button" onclick="startQuiz()"style="margin-top: 10px;">測驗開始！</button>
-
+    <h1>測驗結束</h1>
+    <img src="pic5.jpg" alt="測驗圖片" style="max-width: 92%; height: auto; margin-top: -80px; border: 2px solid #3E3A39; border-radius: 5px;">
+    <button class="button" onclick="goHome()"style="margin-top: 10px;">重新開始！</button> <!-- 重新開始按鈕 -->
     <script>
-         // 淡入效果
-         document.addEventListener("DOMContentLoaded", function() {
+        // 淡入效果
+        document.addEventListener("DOMContentLoaded", function() {
             fadeIn(); // 調用淡入函數
         });
 
-        function startQuiz() {
+        function goHome() {
             fadeOut(() => {
-                window.location.href = 'page1.html'; // 跳轉到 page1.html
+                window.location.href = 'index.html'; // 跳轉到首頁
             });
         }
 

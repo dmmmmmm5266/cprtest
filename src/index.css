@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+body {
+  background-color: #A8DADC; /* 淺藍色，可以換成你喜歡的顏色 */
+  margin: 0; /* 移除頁面邊距，讓背景顏色填滿 */
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 讓內容保持置中 */
+}

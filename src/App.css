@@ -1,38 +1,46 @@
+/* App.css */
+
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.homePage {
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.image {
+  width: 360px; /* 設置圖片寬度為 360px */
+  height: 400px; /* 設置圖片高度為 400px */
+  margin: -20px auto 0; /* 向上移動 20px */
+  display: block;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.startButton {
+  width: 360px;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #4CAF50;
   color: white;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.startButton:hover {
+  background-color: #45a049;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 當頁面顯示時的漸入效果 */
+.fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.testPage {
+  padding: 20px;
 }

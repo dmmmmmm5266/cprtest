@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測驗頁面</title>
+    <style>
+        body {
+            background-color: #A5D4D6; /* 假設的背景顏色 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            opacity:0; /* 初始不透明度為 0 */
+            transition: opacity 0.5s ease; /* 淡入效果 */
+        }
+        h1 {
+            margin-bottom: -140px;
+        }
+        .button {
+            width: 360px;
+            padding: 15px;
+            background-color: #EF8563; /* 按鈕顏色 */
+            color: white; /* 字體顏色 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: opacity 0.5s; /* 漸入效果 */
+            font-size: 18px; /* 字體大小 */
+            font-weight: bold; /* 設置字體為粗體 */
+            position: relative; /* 使邊框陰影相對於按鈕 */
+        }
+        .image-container {
+            width: 360px; /* 設置容器寬度 */
+            height: 320px; /* 設置容器高度 */
+            overflow: hidden; /* 隱藏超出容器的部分 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 5px; /* 圓角 */
+            margin-bottom: -20px; /* 圖片與按鈕之間的間距 */
+            display: flex; /* 使用 Flexbox */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+        }
+        .image {
+            width:100%; /* 自動寬度 */
+            height: 100%; /* 高度填滿容器 */
+            object-fit: cover; /* 裁切圖片以填滿容器 */
+            transition: transform 0.3s; /* 添加過渡效果 */
+            margin-top: -30px; /* 調整圖片的上邊距，手動調整位置 */
+        }
+     
+        .additional-image {
+            max-width: 120%;
+            width: 360px;
+            height: auto;
+            margin-bottom: 5px; /* 圖片與按鈕之間的間距 */
+            border: 2px solid #3E3A39; 
+            border-radius: 5px; /* 更大的圓角 */
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>測驗結束</h1>
+    
+    <!-- 第一張圖片的容器 -->
+    <div class="image-container">
+        <img id="cprGif" src="CPR2.gif" alt="心肺復甦術動畫" class="image"> <!-- 替換為你的 GIF 路徑 -->
+    </div>
+    
+    <!-- 新增的圖片，使用新的樣式 -->
+    <img id="additionalImage" src="rule2.jpg" alt="附加圖片" class="additional-image"> <!-- 替換為你的附加圖片路徑 -->
+    
+    <button class="button" onclick="goHome()"style="margin-top: 10px;">準備好了！</button> <!-- 重新開始按鈕 -->
+    <script>
+        // 淡入效果
+        document.addEventListener("DOMContentLoaded", function() {
+            fadeIn(); // 調用淡入函數
+        });
+
+        function goHome() {
+            fadeOut(() => {
+                window.location.href = 'page6.html'; // 跳轉到首頁
+            });
+        }
+
+        function fadeOut(callback) {
+            let opacity = 1; // 初始不透明度
+            const fade = () => {
+                opacity -= 0.05; // 每次減少不透明度
+                if (opacity <= 0) {
+                    opacity = 0; // 確保不透明度不小於 0
+                    callback(); // 執行回調
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                requestAnimationFrame(fade); // 繼續淡出
+            };
+            fade(); // 開始淡出
+        }
+
+        function fadeIn() {
+            let opacity = 0; // 初始不透明度
+            const fade = () => {
+                opacity += 0.05; // 每次增加不透明度
+                if (opacity >= 1) {
+                    opacity = 1; // 確保不透明度不大於 1
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                if (opacity < 1) {
+                    requestAnimationFrame(fade); // 繼續淡入
+                }
+            };
+            fade(); // 開始淡入
+        }
+    </script>
+
+</body>
+</html>

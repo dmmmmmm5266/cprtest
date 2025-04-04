@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>測驗頁面</title>
+    <style>
+        body {
+            background-color: #A5D4D6; /* 假設的背景顏色 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            opacity: 0; /* 初始不透明度 */
+            transition: opacity 0.5s ease; /* 淡入淡出效果 */
+        }
+        h1 {
+            margin-bottom: -130px;
+        }
+        .counter {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .image-container {
+            width: 360px; /* 設置容器寬度 */
+            height: 300px; /* 設置容器高度 */
+            overflow: hidden; /* 隱藏超出容器的部分 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 5px; /* 圓角 */
+            display: flex; /* 使用 Flexbox */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+        }
+        .button {
+            width: 360px;
+            height: 250px; /* 設置按鈕高度 */
+            background-image: url('CPR2.jpg'); /* 設置背景圖片 */
+            background-size: cover; /* 確保圖片覆蓋整個按鈕 */
+            background-position: center; /* 圖片居中 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 10px; /* 圓角 */
+            cursor: pointer;
+            position: relative; /* 使文字能夠在圖片上顯示 */
+            user-select: none; /* 禁用文本選擇 */
+            -webkit-user-select: none; /* 禁用 Safari 的文本選擇 */
+            -moz-user-select: none; /* 禁用 Firefox 的文本選擇 */
+            transition: transform 0.1s; /* 添加過渡效果 */
+        }
+        .button:active {
+            transform: scale(0.95); /* 按下時縮小按鈕 */
+        }
+        .button span {
+            position: absolute; /* 使文字能夠在圖片上顯示 */
+            top: 50%; /* 垂直居中 */
+            left: 50%; /* 水平居中 */
+            transform: translate(-50%, -50%); /* 精確居中 */
+            color: white; /* 文字顏色 */
+            font-size: 20px; /* 字體大小 */
+            text-align: center; /* 文字置中 */
+        }
+        img {
+            width: 120%; /* 設置圖片寬度為容器的 100% */
+            height: auto; /* 高度自動 */
+            object-fit: cover; /* 確保圖片填滿容器並保持比例 */
+            margin-top:-2px; /* 調整圖片的上邊距，手動調整位置 */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>按壓頻率計算</h1>
+    <div class="image-container">
+        <img id="cprGif" src="CPR2.gif" alt="心肺復甦術動畫" class="image"> <!-- 替換為你的 GIF 路徑 -->
+    </div>
+    </div>
+    <div class="counter" id="counterDisplay">吹氣次數: 0</div> <!-- 計數器顯示 -->
+    <input type="button" class="button" id="pressButton">
+    <span>長按我！</span> <!-- 按鈕文字 -->
+
+    <script>
+        let pressCount = 0; // 計數器
+        let longPressCount = 0; // 長按計數器
+        let pressTimer; // 計時器
+        const requiredPresses = 2; // 需要的長按次數
+        const gifSrc = "CPR2.gif"; // GIF 檔案路徑
+        let longPressDuration; // 用於儲存長按持續時間
+
+        document.getElementById("pressButton").addEventListener("mousedown", function() {
+            startTime = Date.now(); // 記錄開始時間
+        });
+
+        document.getElementById("pressButton").addEventListener("mouseup", function() {
+            const endTime = Date.now(); // 記錄結束時間
+            longPressDuration = (endTime - startTime) / 1000; // 計算持續時間（秒）
+
+            // 檢查長按時間是否小於 1 秒
+            if (duration < 1) {
+                alert("不合格！請長按至少 1 秒。");
+                return; // 終止後續操作
+            }
+
+            longPressCount++; // 增加長按計數
+            document.getElementById("counterDisplay").innerText = "吹氣次數: " + longPressCount; // 更新計數器顯示
+
+            // 播放 GIF
+            const cprImage = document.getElementById("cprGif");
+            cprImage.src = gifSrc; // 設置 GIF 的來源以播放
+
+            // 檢查是否達到所需的長按次數
+            if (longPressCount === requiredPresses) {
+                alert("建立呼吸道成功！ ");
+                localStorage.setItem("testResultPage6", longPressDuration); // 儲存長按時間
+                localStorage.setItem("speedResultPage6", "justRight"); // 儲存速度結果
+                window.location.href = 'page4-1.html'; // 跳轉到 page7.html
+            }
+        });
+
+        document.getElementById("pressButton").addEventListener("mouseleave", function() {
+            clearTimeout(pressTimer); // 清除計時器
+        });
+
+        document.getElementById("pressButton").addEventListener("touchstart", function() {
+            startTime = Date.now(); // 記錄開始時間
+        });
+
+        document.getElementById("pressButton").addEventListener("touchend", function() {
+            const endTime = Date.now(); // 記錄結束時間
+            const duration = (endTime - startTime) / 1000; // 計算持續時間（秒）
+
+            // 檢查長按時間是否小於 1 秒
+            if (duration < 1) {
+                alert("沒有完整建立呼吸道！請長按至少 1 秒。");
+                localStorage.setItem("speedResultPage6", "tooShort"); // 儲存速度結果
+                return; // 終止後續操作
+            }
+
+            longPressCount++; // 增加長按計數
+            document.getElementById("counterDisplay").innerText = "吹氣次數: " + longPressCount; // 更新計數器顯示
+
+            // 播放 GIF
+            const cprImage = document.getElementById("cprGif");
+            cprImage.src = gifSrc; // 設置 GIF 的來源以播放
+
+            // 檢查是否達到所需的長按次數
+            if (longPressCount === requiredPresses) {
+                alert("建立呼吸道成功！請重複對心臟進行按壓");
+                localStorage.setItem("testResultPage6", longPressDuration); // 儲存長按時間
+                localStorage.setItem("speedResultPage6", "justRight"); // 儲存速度結果
+                window.location.href = 'page4-1.html'; // 跳轉到 page7.html
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fadeIn(); // 調用淡入函數
+        });
+
+        function fadeIn() {
+            let opacity = 0; // 初始不透明度
+            const fade = () => {
+                opacity += 0.05; // 每次增加不透明度
+                if (opacity >= 1) {
+                    opacity = 1; // 確保不透明度不大於 1
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                if (opacity < 1) {
+                    requestAnimationFrame(fade); // 繼續淡入
+                }
+            };
+            fade(); // 開始淡入
+        }
+    </script>
+</body>
+</html>

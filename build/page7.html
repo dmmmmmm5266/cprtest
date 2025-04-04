@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            background-color: #ffffff; /* 假設的背景顏色 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            opacity: 0; /* 初始不透明度 */
+            transition: opacity 0.5s ease; /* 淡入淡出效果 */
+        }
+        h1 {
+            margin-bottom: 0px;
+        }
+        .counter {
+            font-size: 12px;
+            margin: 10px 0;
+        }
+        .button {
+            width: 360px;
+            padding: 15px;
+            background-color: #EF8563; /* 按鈕顏色 */
+            color: white; /* 字體顏色 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: opacity 0.5s; /* 漸入效果 */
+            font-size: 18px; /* 字體大小 */
+            font-weight: bold; /* 設置字體為粗體 */
+            position: relative; /* 使邊框陰影相對於按鈕 */
+            
+        }
+        .image-container {
+            width: 360px; /* 設置容器寬度 */
+            height: 400px; /* 設置容器高度 */
+            border: 0px solid #ffffff; /* 邊框顏色和寬度 */
+            border-radius: 5px; /* 圓角 */
+            display: flex; /* 使用 Flexbox */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            margin: -10px 0;
+        }
+        
+        .image {
+            width:100%; /* 自動寬度 */
+            height: 120%; /* 高度填滿容器 */
+            object-fit: cover; /* 裁切圖片以填滿容器 */
+            transition: transform 0.3s; /* 添加過渡效果 */
+        }
+     
+        .additional-image {
+            max-width: 100%;
+            width: 360px;
+            height: auto;
+            margin-bottom: 100px; /* 圖片與按鈕之間的間距 */
+            border: 0px solid #3E3A39; 
+            border-radius: 0px; /* 更大的圓角 */
+            margin: 2px 0; /* 上下間距 */
+        
+        }
+        .result-message {
+            font-size: 1.2em; /* 訊息字體大小 */
+        }
+        .result-container {
+            display: grid; /* 使用 grid 佈局 */
+            grid-template-rows: auto 1fr; /* 上下兩行 */
+            border: 1px solid #4CAF50; /* 內部框顏色 */
+            border-radius: 5px; /* 圓角 */
+            margin: 50px 0; /* 上下間距 */
+            overflow: hidden; /* 隱藏溢出 */
+        }
+        .container {
+            display: grid; /* 使用 flex 佈局 */
+            flex-direction: column; /* 垂直排列 */
+            align-items: center; /* 置中顯示 */
+            margin: 0px; /* 外邊距 */
+        }
+        .result-group {
+            border: 2px solid #a4d4d5; /* 外框顏色 */
+            border-radius: 0px; /* 圓角 */
+            padding: 25px; /* 內邊距 */
+            margin: -10px 0; /* 上下間距 */
+            width: 306px; /* 設定寬度 */
+            max-width: 360px; /* 設定最大寬度 */
+            justify-content: center;
+            text-align: center; /* 文字置中 */
+            margin-bottom: 10px; /* 圖片與按鈕之間的間距 */
+        }
+        .result-title {
+            font-size: 1.5em; /* 標題字體大小 */
+            text-align: center; /* 置中顯示 */
+            margin-bottom: 10px; /* 標題下方間距 */
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    
+    <div class="image-container">
+        <img id="additionalImage" src="pic7.jpg" alt="附加圖片" class="additional-image" style="max-width: 100%; height: auto;"> <!-- 確保這裡的路徑正確 -->
+    </div>
+    <img id="additionalImage" src="pic7-1.jpg" alt="附加圖片" class="additional-image"> <!-- 替換為你的附加圖片路徑 -->
+    
+
+    <div class="container">
+        <div class="result-group">
+            <div id="resultPage4" class="result-message"></div> <!-- 顯示按壓頻率的結果 -->
+            <div id="resultPage4_1" class="result-message"></div> <!-- 顯示呼吸道建立的結果 -->
+        </div>
+
+        <img id="additionalImage" src="pic7-2.jpg" alt="附加圖片" class="additional-image"> <!-- 替換為你的附加圖片路徑 -->
+
+        <div class="result-group">
+            <div id="resultPage6" class="result-message"></div> <!-- 顯示按壓頻率的結果 -->
+            <div id="resultPage6_1" class="result-message"></div> <!-- 顯示呼吸道建立的結果 -->
+        </div>
+    </div>
+
+    <button class="button" onclick="goHome()" style="margin-top: 10px;">重新開始！</button>
+    <script>
+        const gifSrc = "car.gif"; // GIF 檔案路徑
+        const successMessage = document.getElementById("successMessage");
+
+        // 淡入效果
+        document.addEventListener("DOMContentLoaded", function() {
+            fadeIn(); // 調用淡入函數
+            displayResults(); // 顯示測驗結果
+        });
+
+        function goHome() {
+            fadeOut(() => {
+                window.location.href = 'index.html'; // 跳轉到首頁
+            });
+        }
+
+        function fadeOut(callback) {
+            let opacity = 1; // 初始不透明度
+            const fade = () => {
+                opacity -= 0.05; // 每次減少不透明度
+                if (opacity <= 0) {
+                    opacity = 0; // 確保不透明度不小於 0
+                    callback(); // 執行回調
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                requestAnimationFrame(fade); // 繼續淡出
+            };
+            fade(); // 開始淡出
+        }
+
+        function fadeIn() {
+            let opacity = 0; // 初始不透明度
+            const fade = () => {
+                opacity += 0.05; // 每次增加不透明度
+                if (opacity >= 1) {
+                    opacity = 1; // 確保不透明度不大於 1
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                if (opacity < 1) {
+                    requestAnimationFrame(fade); // 繼續淡入
+                }
+            };
+            fade(); // 開始淡入
+        }
+
+        function displayResults() {
+            // 獲取速度結果
+            const speedResultPage4 = localStorage.getItem("speedResultPage4"); // 取得 page4 的速度結果
+            const speedResultPage4_1 = localStorage.getItem("speedResultPage4-1"); // 取得 page4-1 的速度結果
+            const speedResultPage6 = localStorage.getItem("speedResultPage6"); // 取得 page6 的速度結果
+            const speedResultPage6_1 = localStorage.getItem("speedResultPage6-1"); // 取得 page6-1 的速度結果
+            
+            // 判斷按壓速度
+            let messagePage4 = "";
+            let messagePage4_1 = "";
+            let messagePage6 = "";
+            let messagePage6_1 = "";
+
+            const isPerfect = (result) => result === "justRight";
+            const isTooShort = (result) => result === "tooShort";
+            const isTooFast = (result) => result === "tooFast";
+
+            // 處理 page4 和 page4-1 的結果
+            if (isPerfect(speedResultPage4) && isPerfect(speedResultPage4_1)) {
+                messagePage4 = "按壓速度剛剛好！要繼續保持哦";
+            } else if ((isPerfect(speedResultPage4) && isTooShort(speedResultPage4_1)) || 
+                       (isPerfect(speedResultPage4_1) && isTooFast(speedResultPage4))) {
+                messagePage4 = "按壓有時不穩定，可以再繼續練習！";
+            } else if (isTooFast(speedResultPage4) || isTooFast(speedResultPage4_1)) {
+                messagePage4 = "按壓速度太快了，請再多練習！";
+            } else if (isTooShort(speedResultPage4) || isTooShort(speedResultPage4_1)) {
+                messagePage4 = "按壓速度太慢了，請再多練習！";
+            } else {
+                messagePage4 = "按壓速度掌握不足，可以再看一次急救動畫哦！";
+            }
+
+            // 處理 page6 和 page6-1 的結果
+            if (isPerfect(speedResultPage6) && isPerfect(speedResultPage6_1)) {
+                messagePage6 = "建立呼吸道成功！繼續保持！";
+            } else if ((isPerfect(speedResultPage6) && isTooShort(speedResultPage6_1)) || 
+                       (isPerfect(speedResultPage6_1) && isTooShort(speedResultPage6))) {
+                messagePage6 = "呼吸道建立不太不穩定，可以再繼續練習";
+            } else if (isTooFast(speedResultPage6) || isTooFast(speedResultPage6_1)) {
+                messagePage6 = "吹氣速度太快，不足以建立呼吸道，請再多練習！";
+            } else {
+                messagePage6 = "建立呼吸道掌握不足，可以再看一次急救動畫！";
+            }
+
+            // 顯示結果
+            document.getElementById("resultPage4").innerText = messagePage4;
+            document.getElementById("resultPage4_1").innerText = messagePage4_1;
+            document.getElementById("resultPage6").innerText = messagePage6;
+            document.getElementById("resultPage6_1").innerText = messagePage6_1;
+
+           
+        }
+    </script>
+</body>
+</html>

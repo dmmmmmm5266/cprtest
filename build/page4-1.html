@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>測驗頁面</title>
+    <style>
+        body {
+            background-color: #A5D4D6; /* 假設的背景顏色 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            opacity: 0; /* 初始不透明度 */
+            transition: opacity 0.5s ease; /* 淡入淡出效果 */
+        }
+        h1 {
+            margin-bottom: -130px;
+        }
+        .counter {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .image-container {
+            width: 360px; /* 設置容器寬度 */
+            height: 250px; /* 設置容器高度 */
+            overflow: hidden; /* 隱藏超出容器的部分 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 5px; /* 圓角 */
+            display: flex; /* 使用 Flexbox */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+        }
+        .button {
+            width: 360px;
+            padding: 130px;
+            background-color: #C7D0D3; /* 按鈕顏色 */
+            color: #000000; /* 字體顏色 */
+            border: 2px solid #3E3A39;
+            border-radius: 10px; /* 圓角 */
+            cursor: pointer;
+            font-size: 20px; /* 字體大小 */
+            margin: 5px 0; /* 按鈕之間的間距 */
+            white-space: normal; /* 允許文本換行 */
+            text-align: center; /* 文字置中 */
+        }
+        img {
+            width: 120%; /* 設置圖片寬度為容器的 100% */
+            height: auto; /* 高度自動 */
+            object-fit: cover; /* 確保圖片填滿容器並保持比例 */
+            margin-top: -30px; /* 調整圖片的上邊距，手動調整位置 */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>按壓頻率計算</h1>
+    <div class="image-container">
+        <img id="cprImage" src="CPR1.jpg" alt="心肺復甦術圖片" class="image"> <!-- 初始顯示 CPR1.jpg -->
+    </div>
+    <div class="counter" id="counterDisplay">按壓次數: 0</div> <!-- 計數器顯示 -->
+    <input type="button" class="button" id="pressButton">
+    <span>按壓我！</span> <!-- 按鈕文字 -->
+    <script>
+        let pressCount = 0; // 計數器
+        let startTime; // 開始時間
+        const totalPresses = 30; // 總按壓次數
+        const gifSrc = "CPR1.gif"; // GIF 檔案路徑
+        let PressDuration; // 用於儲存長按持續時間
+
+        document.getElementById("pressButton").addEventListener("click", function() {
+            if (pressCount === 0) {
+                startTime = Date.now(); // 記錄開始時間
+            }
+
+            // 每次按鈕按下，增加按壓計數
+            pressCount++; 
+            document.getElementById("counterDisplay").innerText = "按壓次數: " + pressCount; // 更新計數器顯示
+
+            // 播放 GIF
+            const cprImage = document.getElementById("cprImage");
+            cprImage.src = gifSrc; // 設置 GIF 的來源以播放
+
+            // 檢查按壓次數是否達到總次數
+            if (pressCount === totalPresses) {
+                const endTime = Date.now(); // 記錄結束時間
+                const duration = (endTime - startTime) / 1000; // 計算持續時間（秒）
+                const frequency = (pressCount / duration) * 60; // 計算頻率（每分鐘按壓次數）
+
+                // 檢查頻率是否合格
+                if (frequency >= 100 && frequency <= 120) {
+                    alert("按壓速度剛剛好！請接著建立呼吸道！");
+                    localStorage.setItem("testResultPage4-1", PressDuration); // 儲存長按時間
+                    localStorage.setItem("speedResultPage4-1", "justRight"); // 儲存速度結果
+                    window.location.href = 'page6-1.html'; // 跳轉到 page5.html
+                } else if (frequency < 100) {
+                    alert("按壓速度太慢囉！請趕快前往建立呼吸道！");
+                    localStorage.setItem("testResultPage4-1", PressDuration); // 儲存長按時間
+                    localStorage.setItem("speedResultPage4-1", "tooShort"); // 儲存速度結果
+                    window.location.href = 'page6-1.html'; // 跳轉到 page5.html
+                } else {
+                    alert("按壓速度太快囉！請趕快前往建立呼吸道！");
+                    localStorage.setItem("testResultPage4-1", PressDuration); // 儲存長按時間
+                    localStorage.setItem("speedResultPage4-1", "tooFast"); // 儲存速度結果
+                    window.location.href = 'page6-1.html'; // 跳轉到 page5.html
+                }
+
+                // 重置計數器
+                pressCount = 0;
+                document.getElementById("counterDisplay").innerText = "按壓次數: " + pressCount; // 重置計數器顯示
+                cprImage.src = "CPR1.jpg"; // 重置圖片為初始狀態
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fadeIn(); // 調用淡入函數
+        });
+
+        function fadeIn() {
+            let opacity = 0; // 初始不透明度
+            const fade = () => {
+                opacity += 0.05; // 每次增加不透明度
+                if (opacity >= 1) {
+                    opacity = 1; // 確保不透明度不大於 1
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                if (opacity < 1) {
+                    requestAnimationFrame(fade); // 繼續淡入
+                }
+            };
+            fade(); // 開始淡入
+        }
+    </script>
+</body>
+</html>

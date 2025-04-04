@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測驗頁面</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            opacity:0; /* 初始不透明度為 0 */
+            transition: opacity 0.5s ease; /* 淡入效果 */
+        }
+        h1 {
+            margin-bottom: -80px;
+        }
+        .button {
+            width: 360px;
+            padding: 15px;
+            background-color: #EF8563; /* 按鈕顏色 */
+            color: white; /* 字體顏色 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: opacity 0.5s; /* 漸入效果 */
+            font-size: 18px; /* 字體大小 */
+            font-weight: bold; /* 設置字體為粗體 */
+            position: relative; /* 使邊框陰影相對於按鈕 */
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>測驗結束</h1>
+    <img src="pic3.jpg" alt="測驗圖片" style="max-width: 92%; height: auto; margin-top: -80px; border: 2px solid #3E3A39; border-radius: 5px;">
+    <button class="button" onclick="goHome()"style="margin-top: 10px;">重新開始！</button> <!-- 重新開始按鈕 -->
+    <script>
+        // 淡入效果
+        document.addEventListener("DOMContentLoaded", function() {
+            fadeIn(); // 調用淡入函數
+        });
+
+        function goHome() {
+            fadeOut(() => {
+                window.location.href = 'index.html'; // 跳轉到首頁
+            });
+        }
+
+        function fadeOut(callback) {
+            let opacity = 1; // 初始不透明度
+            const fade = () => {
+                opacity -= 0.05; // 每次減少不透明度
+                if (opacity <= 0) {
+                    opacity = 0; // 確保不透明度不小於 0
+                    callback(); // 執行回調
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                requestAnimationFrame(fade); // 繼續淡出
+            };
+            fade(); // 開始淡出
+        }
+
+        function fadeIn() {
+            let opacity = 0; // 初始不透明度
+            const fade = () => {
+                opacity += 0.05; // 每次增加不透明度
+                if (opacity >= 1) {
+                    opacity = 1; // 確保不透明度不大於 1
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                if (opacity < 1) {
+                    requestAnimationFrame(fade); // 繼續淡入
+                }
+            };
+            fade(); // 開始淡入
+        }
+    </script>
+
+</body>
+</html>

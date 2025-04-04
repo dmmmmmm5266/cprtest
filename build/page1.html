@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>測驗頁面</title>
+    <style>
+        body {
+            background-color: #A5D4D6; /* 假設的背景顏色 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            opacity: 0; /* 初始不透明度 */
+            transition: opacity 0.5s ease; /* 淡入淡出效果 */
+        }
+        h1 {
+            margin-bottom: -80px;
+        }
+        .image {
+            max-width: 92%;
+            width: 360px;
+            height: auto;
+            margin-bottom: 10px; /* 圖片與按鈕之間的間距 */
+            border: 2px solid #3E3A39; /* 邊框顏色和寬度 */
+            border-radius: 5px; /* 圓角 */
+        }
+        .button {
+            width: 360px;
+            padding: 15px;
+            background-color: #ffffff; /* 按鈕顏色 */
+            color: #3E3A39; /* 字體顏色 */
+            border: 2px solid #3E3A39;
+            border-radius: 10px; /* 圓角 */
+            cursor: pointer;
+            font-size: 16px; /* 字體大小 */
+            margin: 5px 0; /* 按鈕之間的間距 */
+            white-space: normal; /* 允許文本換行 */
+            text-align: center; /* 文字置中 */
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <h1></h1>
+    <img src="pic2.jpg" alt="動物圖片" class="image">
+    
+    <button class="button" onclick="ignoreAnimal()">看起來是在睡覺，不用管他</button>
+    <button class="button" onclick="callVet()">趕快拍拍他、呼喊他的名字，<br>並請家人打電話給最近的動物醫院</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fadeIn(); // 調用淡入函數
+        });
+
+         function ignoreAnimal() {
+            fadeOut(() => {
+                window.location.href = 'page2.html'; // 跳轉到 page2.html
+            });
+        }
+
+        function callVet() {
+            fadeOut(() => {
+                window.location.href = 'page3.html'; // 確保這裡指向正確的 page3.html
+            });
+        }
+
+        
+        function fadeOut(callback) {
+            let opacity = 1; // 初始不透明度
+            const fade = () => {
+                opacity -= 0.05; // 每次減少不透明度
+                if (opacity <= 0) {
+                    opacity = 0; // 確保不透明度不小於 0
+                    callback(); // 執行回調
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                requestAnimationFrame(fade); // 繼續淡出
+            };
+            fade(); // 開始淡出
+        }
+        function fadeIn() {
+            let opacity = 0; // 初始不透明度
+            const fade = () => {
+                opacity += 0.05; // 每次增加不透明度
+                if (opacity >= 1) {
+                    opacity = 1; // 確保不透明度不大於 1
+                }
+                document.body.style.opacity = opacity; // 更新不透明度
+                if (opacity < 1) {
+                    requestAnimationFrame(fade); // 繼續淡入
+                }
+            };
+            fade(); // 開始淡入
+        }
+    </script>
+
+</body>
+</html>
